@@ -5,12 +5,12 @@
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
     :background="true"
+    :layout="paginationLayout"
     :page-sizes="[10, 20, 30, 50, 100]"
-    :pager-count="pagerCount"
+    :pager-count="isMobile ? 5 : pagerCount"
     :total="total"
-    :small="isSmall"
-    class="float-right mb-15px mt-15px"
-    layout="total, sizes, prev, pager, next, jumper"
+    :small="isSmall || isMobile"
+    class="pagination-container float-right mb-15px mt-15px"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
   />
@@ -24,6 +24,10 @@ defineOptions({ name: 'Pagination' })
 // 此处解决了当全局size为small的时候分页组件样式太大的问题
 const appStore = useAppStore()
 const layoutCurrentSize = computed(() => appStore.currentSize)
+const isMobile = computed(() => appStore.getMobile)
+const paginationLayout = computed(() =>
+  isMobile.value ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'
+)
 const isSmall = ref<boolean>(layoutCurrentSize.value === 'small')
 watchEffect(() => {
   isSmall.value = layoutCurrentSize.value === 'small'
@@ -85,3 +89,14 @@ const handleCurrentChange = (val) => {
   emit('pagination', { page: val, limit: pageSize.value })
 }
 </script>
+
+<style lang="scss" scoped>
+@media (width <= 767px) {
+  .pagination-container {
+    float: none !important;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+}
+</style>

@@ -21,6 +21,11 @@ interface UserInfoVO {
   user: UserVO
 }
 
+const normalizeUser = (user: UserVO): UserVO => ({
+  ...user,
+  nickname: user.id === 1 ? '管理员' : user.nickname
+})
+
 export const useUserStore = defineStore('admin-user', {
   state: (): UserInfoVO => ({
     permissions: new Set<string>(),
@@ -64,6 +69,7 @@ export const useUserStore = defineStore('admin-user', {
       }
       this.permissions = new Set(userInfo.permissions || []) // 兜底为 [] https://t.zsxq.com/xCJew
       this.roles = userInfo.roles
+      userInfo.user = normalizeUser(userInfo.user)
       this.user = userInfo.user
       this.isSetUser = true
       wsCache.set(CACHE_KEY.USER, userInfo)

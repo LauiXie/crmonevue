@@ -55,6 +55,15 @@
   --transition-time-02: 0.2s;
 }
 
+@media (width <= 767px) {
+  :root {
+    --top-tool-height: 54px;
+    --tags-view-height: 0px;
+    --app-content-padding: 12px;
+    --app-footer-height: 0px;
+  }
+}
+
 .dark {
   --app-content-bg-color: var(--el-bg-color);
 }

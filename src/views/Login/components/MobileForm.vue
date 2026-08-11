@@ -10,21 +10,9 @@
     size="large"
   >
     <el-row class="mx-[-10px]">
-      <!-- 租户名 -->
       <el-col :span="24" class="px-10px">
         <el-form-item>
           <LoginFormTitle class="w-full" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24" class="px-10px">
-        <el-form-item v-if="loginData.tenantEnable === 'true'" prop="tenantName">
-          <el-input
-            v-model="loginData.loginForm.tenantName"
-            :placeholder="t('login.tenantNamePlaceholder')"
-            :prefix-icon="iconHouse"
-            type="primary"
-            link
-          />
         </el-form-item>
       </el-col>
       <!-- 手机号 -->
@@ -105,7 +93,6 @@ const permissionStore = usePermissionStore()
 const { currentRoute, push } = useRouter()
 const formSmsLogin = ref()
 const loginLoading = ref(false)
-const iconHouse = useIcon({ icon: 'ep:house' })
 const iconCellphone = useIcon({ icon: 'ep:cellphone' })
 const iconCircleCheck = useIcon({ icon: 'ep:circle-check' })
 const { validForm } = useFormValid(formSmsLogin)
@@ -126,7 +113,7 @@ const loginData = reactive({
   },
   loginForm: {
     uuid: '',
-    tenantName: '芋道源码',
+    tenantName: import.meta.env.VITE_APP_DEFAULT_LOGIN_TENANT || '',
     mobileNumber: '',
     code: ''
   }

@@ -16,18 +16,6 @@
         </el-form-item>
       </el-col>
       <el-col :span="24" class="px-10px">
-        <el-form-item v-if="registerData.tenantEnable === 'true'" prop="tenantName">
-          <el-input
-            v-model="registerData.registerForm.tenantName"
-            :placeholder="t('login.tenantname')"
-            :prefix-icon="iconHouse"
-            link
-            type="primary"
-            size="large"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24" class="px-10px">
         <el-form-item prop="username">
           <el-input
             v-model="registerData.registerForm.username"
@@ -105,7 +93,6 @@ import { LoginStateEnum, useLoginState, useFormValid } from './useLogin'
 defineOptions({ name: 'RegisterForm' })
 
 const { t } = useI18n()
-const iconHouse = useIcon({ icon: 'ep:house' })
 const iconAvatar = useIcon({ icon: 'ep:avatar' })
 const iconLock = useIcon({ icon: 'ep:lock' })
 const formLogin = ref()

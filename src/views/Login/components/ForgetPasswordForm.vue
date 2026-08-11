@@ -10,21 +10,9 @@
     size="large"
   >
     <el-row class="mx-[-10px]">
-      <!-- 租户名 -->
       <el-col :span="24" class="px-10px">
         <el-form-item>
           <LoginFormTitle class="w-full" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24" class="px-10px">
-        <el-form-item v-if="resetPasswordData.tenantEnable === 'true'" prop="tenantName">
-          <el-input
-            v-model="resetPasswordData.tenantName"
-            :placeholder="t('login.tenantNamePlaceholder')"
-            :prefix-icon="iconHouse"
-            type="primary"
-            link
-          />
         </el-form-item>
       </el-col>
       <!-- 手机号 -->
@@ -131,7 +119,6 @@ const message = useMessage()
 const { currentRoute } = useRouter()
 const formSmsResetPassword = ref()
 const loginLoading = ref(false)
-const iconHouse = useIcon({ icon: 'ep:house' })
 const iconCellphone = useIcon({ icon: 'ep:cellphone' })
 const iconCircleCheck = useIcon({ icon: 'ep:circle-check' })
 const { validForm } = useFormValid(formSmsResetPassword)
@@ -169,7 +156,7 @@ const rules = {
 const resetPasswordData = reactive({
   captchaEnable: import.meta.env.VITE_APP_CAPTCHA_ENABLE,
   tenantEnable: import.meta.env.VITE_APP_TENANT_ENABLE,
-  tenantName: '',
+  tenantName: import.meta.env.VITE_APP_DEFAULT_LOGIN_TENANT || '',
   username: '',
   password: '',
   check_password: '',
@@ -178,7 +165,7 @@ const resetPasswordData = reactive({
 })
 
 const smsVO = reactive({
-  tenantName: '',
+  tenantName: import.meta.env.VITE_APP_DEFAULT_LOGIN_TENANT || '',
   mobile: '',
   captchaVerification: '',
   scene: 23

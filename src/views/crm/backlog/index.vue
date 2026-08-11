@@ -2,7 +2,7 @@
   <doc-alert title="【通用】跟进记录、待办事项" url="https://doc.iocoder.cn/crm/follow-up/" />
 
   <el-row :gutter="20">
-    <el-col :span="4" class="min-w-[200px]">
+    <el-col :span="4" :xs="24" class="backlog-nav min-w-[200px]">
       <div class="side-item-list">
         <div
           v-for="(item, index) in leftSides"
@@ -16,7 +16,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="20" :xs="24">
+    <el-col :span="20" :xs="24" class="backlog-content">
       <CustomerTodayContactList v-if="leftMenu === 'customerTodayContact'" />
       <ClueFollowList v-if="leftMenu === 'clueFollow'" />
       <ContractAuditList v-if="leftMenu === 'contractAudit'" />
@@ -173,5 +173,54 @@ onMounted(async () => {
   position: absolute;
   top: 0;
   right: 15px;
+}
+
+@media (width <= 767px) {
+  .backlog-nav {
+    min-width: 0;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .side-item-list {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+    gap: 6px;
+    padding: 5px;
+    border-radius: 10px;
+
+    .side-item {
+      height: 40px;
+      flex: none;
+      padding: 0 14px;
+      line-height: 40px;
+      border-radius: 7px;
+    }
+  }
+
+  .side-item-default,
+  .side-item-select {
+    border-right: 0;
+  }
+
+  .side-item-select {
+    font-weight: 600;
+  }
+
+  .el-badge {
+    position: static;
+    margin-left: 6px;
+  }
+
+  .el-badge :deep(.el-badge__content) {
+    position: static;
+    transform: none;
+  }
 }
 </style>

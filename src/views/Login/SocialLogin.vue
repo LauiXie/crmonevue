@@ -9,7 +9,7 @@
       >
         <!-- 左上角的 logo + 系统标题 -->
         <div class="relative flex items-center text-white">
-          <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png" />
+          <img alt="CRM" class="mr-10px h-48px w-48px" src="@/assets/svgs/crm-logo.svg" />
           <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
         </div>
         <!-- 左边的背景图 + 欢迎语 -->
@@ -35,7 +35,7 @@
           class="flex items-center justify-between text-white at-2xl:justify-end at-xl:justify-end"
         >
           <div class="flex items-center at-2xl:hidden at-xl:hidden">
-            <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png" />
+            <img alt="CRM" class="mr-10px h-48px w-48px" src="@/assets/svgs/crm-logo.svg" />
             <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
           </div>
           <div class="flex items-center justify-end space-x-10px h-48px">
@@ -63,17 +63,6 @@
                 <el-col :span="24" style="padding-right: 10px; padding-left: 10px">
                   <el-form-item>
                     <LoginFormTitle style="width: 100%" />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24" style="padding-right: 10px; padding-left: 10px">
-                  <el-form-item v-if="loginData.tenantEnable" prop="tenantName">
-                    <el-input
-                      v-model="loginData.loginForm.tenantName"
-                      :placeholder="t('login.tenantNamePlaceholder')"
-                      :prefix-icon="iconHouse"
-                      link
-                      type="primary"
-                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="24" style="padding-right: 10px; padding-left: 10px">
@@ -176,7 +165,6 @@ const route = useRoute()
 const appStore = useAppStore()
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('login')
-const iconHouse = useIcon({ icon: 'ep:house' })
 const iconAvatar = useIcon({ icon: 'ep:avatar' })
 const iconLock = useIcon({ icon: 'ep:lock' })
 const formLogin = ref<any>()
@@ -200,7 +188,7 @@ const loginData = reactive({
   captchaEnable: import.meta.env.VITE_APP_CAPTCHA_ENABLE !== 'false',
   tenantEnable: import.meta.env.VITE_APP_TENANT_ENABLE !== 'false',
   loginForm: {
-    tenantName: '芋道源码',
+    tenantName: import.meta.env.VITE_APP_DEFAULT_LOGIN_TENANT || '',
     username: 'admin',
     password: 'admin123',
     captchaVerification: '',

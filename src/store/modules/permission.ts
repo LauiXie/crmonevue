@@ -7,6 +7,42 @@ import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
 
 const { wsCache } = useCache()
 
+const REMOVED_MENU_NAMES = new Set([
+  '作者动态',
+  'Boot 开发文档',
+  'Cloud 开发文档',
+  '会员中心',
+  '商城系统',
+  '支付管理',
+  '公众号管理',
+  'AI 大模型',
+  'AI大模型',
+  'IoT 物联网',
+  'IoT 互联网',
+  '报表管理'
+])
+
+const REMOVED_MENU_PATHS = new Set([
+  '/member',
+  '/mall',
+  '/pay',
+  '/mp',
+  '/ai',
+  '/iot',
+  '/report',
+  'https://www.iocoder.cn',
+  'https://doc.iocoder.cn/',
+  'https://cloud.iocoder.cn'
+])
+
+const filterRemovedMenus = (routes: AppCustomRouteRecordRaw[]): AppCustomRouteRecordRaw[] =>
+  routes
+    .filter((route) => !REMOVED_MENU_NAMES.has(route.name) && !REMOVED_MENU_PATHS.has(route.path))
+    .map((route) => ({
+      ...route,
+      children: route.children ? filterRemovedMenus(route.children) : route.children
+    }))
+
 export interface PermissionState {
   routers: AppRouteRecordRaw[]
   addRouters: AppRouteRecordRaw[]
@@ -44,7 +80,7 @@ export const usePermissionStore = defineStore('permission', {
         if (roleRouters) {
           res = roleRouters as AppCustomRouteRecordRaw[]
         }
-        const routerMap: AppRouteRecordRaw[] = generateRoute(res)
+        const routerMap: AppRouteRecordRaw[] = generateRoute(filterRemovedMenus(res))
         // 动态路由，404一定要放到最后面
         // preschooler：vue-router@4以后已支持静态404路由，此处可不再追加
         this.addRouters = routerMap.concat([

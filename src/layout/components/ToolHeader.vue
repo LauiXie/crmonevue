@@ -23,6 +23,9 @@ const prefixCls = getPrefixCls('tool-header')
 
 const appStore = useAppStore()
 
+// 移动端只保留导航、搜索、消息和用户入口，避免头部控件拥挤
+const mobile = computed(() => appStore.getMobile)
+
 // 面包屑
 const breadcrumb = computed(() => appStore.getBreadcrumb)
 
@@ -94,23 +97,25 @@ export default defineComponent({
         ) : undefined}
         <div class="h-full flex items-center">
           {hasTenantVisitPermission.value ? <TenantVisit /> : undefined}
-          <div
-            class="v-setting custom-hover"
-            title={t('setting.projectSetting')}
-            onClick={openSetting}
-          >
-            <Icon color="var(--top-header-text-color)" size={18} icon="ep:setting" />
-          </div>
-          {screenfull.value ? (
+          {!mobile.value ? (
+            <div
+              class="v-setting custom-hover"
+              title={t('setting.projectSetting')}
+              onClick={openSetting}
+            >
+              <Icon color="var(--top-header-text-color)" size={18} icon="ep:setting" />
+            </div>
+          ) : undefined}
+          {screenfull.value && !mobile.value ? (
             <Screenfull class="custom-hover" color="var(--top-header-text-color)"></Screenfull>
           ) : undefined}
           {search.value ? (
             <RouterSearch isModal={false} color="var(--top-header-text-color)" />
           ) : undefined}
-          {size.value ? (
+          {size.value && !mobile.value ? (
             <SizeDropdown class="custom-hover" color="var(--top-header-text-color)"></SizeDropdown>
           ) : undefined}
-          {locale.value ? (
+          {locale.value && !mobile.value ? (
             <LocaleDropdown
               class="custom-hover"
               color="var(--top-header-text-color)"
@@ -120,7 +125,7 @@ export default defineComponent({
             <Message class="custom-hover" color="var(--top-header-text-color)"></Message>
           ) : undefined}
           {/* IM 聊天入口 */}
-          {im.value ? (
+          {im.value && !mobile.value ? (
             <div class="custom-hover" onClick={goToChat}>
               <Icon color="var(--top-header-text-color)" size={18} icon="ep:chat-dot-round" />
             </div>
