@@ -109,6 +109,55 @@
       right: auto !important;
       left: auto !important;
     }
+
+    // 移动端宽表保留原生横向滑动，并常驻显示滚动位置，避免用户误以为列被截断。
+    .el-table--scrollable-x {
+      .el-scrollbar__wrap {
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .el-scrollbar__bar.is-horizontal {
+        display: flex !important;
+        height: 8px;
+        bottom: 0;
+        opacity: 1;
+        background: color-mix(in srgb, var(--el-border-color) 45%, transparent);
+        border-radius: 999px;
+
+        .el-scrollbar__thumb {
+          min-width: 44px;
+          opacity: 0.55;
+          background-color: var(--el-color-primary);
+        }
+      }
+    }
+
+    // Element Plus 的可滚动标签默认依赖桌面端箭头；手机端改为手指原生横向滑动。
+    .el-tabs__nav-wrap.is-scrollable {
+      padding: 0;
+
+      .el-tabs__nav-prev,
+      .el-tabs__nav-next {
+        display: none;
+      }
+
+      .el-tabs__nav-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      .el-tabs__nav {
+        transform: none !important;
+      }
+    }
   }
 
   .el-dialog {
